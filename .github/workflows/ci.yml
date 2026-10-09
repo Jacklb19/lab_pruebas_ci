@@ -1,0 +1,25 @@
+name: CI Piepline API testing
+on:
+  push:
+    branches: ["main"]
+  pull_request::
+    branches: ["main"]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+steps:
+  - name: Checkout del codigo
+    uses: actions/Checkout@v4
+
+  - name: Configurar Python
+    uses: actions/setup-python@v4
+    with:
+      python-version:'3.10
+
+  - name: Levantar entorno con Docker Compose
+    run: docker compose up -d -build
+
+  - name: Ejecutra pruebas con pytest
+    run: docker compose exec -T api pytest -v
